@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- EmpMaper.xml 在com.yyrj.entity 包中  -->  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 命名空间防止重复，指定的是Dao的路经 -->
+<mapper namespace="com.yyrj.cloud_note.dao.UserDao">
+	<!-- id在映射文件中要求唯一 
+	resultType:返回结果的类型 
+	parameterType:参数类型
+	
+	select里的id属性，要跟DAO中的方法名保持一致
+	-->
+	<select id="findByName" parameterType="java.lang.String" resultType="com.yyrj.cloud_note.entity.User">
+		select * from cn_user where cn_user_name=#{name}
+	</select>
+	
+	<insert id="save" parameterType="com.yyrj.cloud_note.entity.User">
+		insert into cn_user values(#{cn_user_id},#{cn_user_name},#{cn_user_password},#{cn_user_token},#{cn_user_nick})	
+	</insert>
+
+</mapper>
+
+
+
+
+
+
+

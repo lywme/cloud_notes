@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- EmpMaper.xml 在com.yyrj.entity 包中  -->  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 命名空间防止重复，指定的是Dao的路经 -->
+<mapper namespace="com.yyrj.cloud_note.dao.NoteDao">
+	<!-- id在映射文件中要求唯一 
+	resultType:返回结果的类型 
+	parameterType:参数类型
+	
+	select里的id属性，要跟DAO中的方法名保持一致
+	-->
+	<select id="findByBookId" parameterType="java.lang.String" resultType="com.yyrj.cloud_note.entity.Note">
+		select cn_note_id,cn_note_title from cn_note where cn_notebook_id=#{bookId} and cn_note_status_id='1' order by cn_note_last_modify_time desc
+	</select>
+	
+
+</mapper>
+
+
+
+
+
+
+
