@@ -7,4 +7,6 @@ import com.yyrj.cloud_note.util.NoteResult;
 
 public interface NoteService {
 	public NoteResult<List<Note>> loadBookNotes(String bookId);
+	public NoteResult<Note> loadNote(String noteId);
+	public NoteResult<Note> updateNote(Note note);
 }

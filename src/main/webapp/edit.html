@@ -7,6 +7,7 @@
         <meta http-equiv="x-pjax-version" content="v173">
         <script type="text/javascript" src="scripts/common/jquery.min.js"></script>
         <script type="text/javascript" src="scripts/book.js"></script>
+        <script type="text/javascript" src="scripts/alert.js"></script>
         <script type="text/javascript" src="scripts/basevalue.js"></script>
 		<script type="text/javascript" src="scripts/cookie.js"></script>
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/favico-144-precomposed.png">
@@ -306,7 +307,6 @@
 		<script type="text/javascript" charset="utf-8" src="scripts/common/ue/umeditor.min.js"></script>
 		<script type="text/javascript" src="scripts/common/ue/lang/zh-cn.js"></script>
 		<script type="text/javascript">
-			<!--
 			//重写JS原生alert函数
 			window.alert=function(e){
 				$('#can').load('./alert/alert_error.html',function(){
@@ -314,9 +314,9 @@
 					$('.opacity_bg').show();
 				});
 			}
-			-->
 			//实例化Ueditor编辑器
 			var um = UM.getEditor('myEditor');
 		</script>
+		
 	</body>		
 </html>

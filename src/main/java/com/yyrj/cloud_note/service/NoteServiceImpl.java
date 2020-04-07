@@ -32,4 +32,40 @@ public class NoteServiceImpl implements NoteService {
 		return result;
 	}
 
+	public NoteResult<Note> loadNote(String noteId) {
+		NoteResult result=new NoteResult();
+		Note note=dao.findByNoteId(noteId);
+		
+		if(note!=null)
+		{
+			result.setStatus(0);
+			result.setMsg("查询成功");
+			result.setData(note);
+		}
+		else
+		{
+			result.setStatus(1);
+			result.setMsg("没查询到对应的笔记");
+		}
+		return result;
+	}
+
+	public NoteResult<Note> updateNote(Note note) {
+		NoteResult<Note> result=new NoteResult();
+
+		int num=dao.updateNote(note);
+		if(num==1)
+		{
+			result.setStatus(0);
+			result.setMsg("修改笔记成功");
+		}
+		else
+		{
+			result.setStatus(1);
+			result.setMsg("修改笔记失败");
+		}
+		
+		return result;
+	}
+
 }

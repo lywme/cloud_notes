@@ -25,4 +25,11 @@ public class TestNoteService extends TestBase {
 		NoteResult result=service.loadBookNotes("6d763ac9-dca3-42d7-a2a7-a08053095c08");
 		System.out.println(result);
 	}
+	
+	@Test
+	public void test2()
+	{
+		NoteResult result=service.loadNote("003ec2a1-f975-4322-8e4d-dfd206d6ac0c");
+		System.out.println(result);
+	}
 }

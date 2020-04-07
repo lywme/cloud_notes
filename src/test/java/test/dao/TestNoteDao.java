@@ -31,4 +31,23 @@ public class TestNoteDao extends TestBase {
 			System.out.println(n);
 		}
 	}
+	
+	@Test
+	public void test2()
+	{
+		Note note=dao.findByNoteId("003ec2a1-f975-4322-8e4d-dfd206d6ac0c");
+		System.out.println(note);
+	}
+	
+	@Test
+	public void test3()
+	{
+		Note n=new Note();
+		n.setCn_note_title("Test Title");
+		n.setCn_note_body("Test Body111");
+		n.setCn_note_id("003ec2a1-f975-4322-8e4d-dfd206d6ac0c");
+		n.setCn_note_last_modify_time(System.currentTimeMillis());
+		int num=dao.updateNote(n);
+		System.out.println(num);
+	}
 }

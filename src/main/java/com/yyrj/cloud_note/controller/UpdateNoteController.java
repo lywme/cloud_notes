@@ -1,7 +1,5 @@
 package com.yyrj.cloud_note.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -14,23 +12,29 @@ import com.yyrj.cloud_note.util.NoteResult;
 
 @Controller
 @RequestMapping("/note")
-public class LoadNoteController {
+public class UpdateNoteController {
 	@Resource
 	private NoteService service;
 	
+	@RequestMapping("/update.do")
 	@ResponseBody
-	@RequestMapping("/loadnotes.do")
-	public NoteResult<List<Note>> execute(String bookId)
+	public NoteResult updatenote(String noteId,String title,String body)
 	{
-		NoteResult<List<Note>> result=service.loadBookNotes(bookId);
-		return result;
-	}
-	
-	@ResponseBody
-	@RequestMapping("/load.do")
-	public NoteResult<Note> loadnote(String noteId)
-	{
-		NoteResult<Note> result=service.loadNote(noteId);
+		NoteResult<Note> result=null;
+		if(noteId!="")
+		{
+			Note note=new Note();
+			note.setCn_note_id(noteId);
+			note.setCn_note_title(title);
+			note.setCn_note_body(body);
+			note.setCn_note_last_modify_time(System.currentTimeMillis());
+			result=service.updateNote(note);
+		}
+		else
+		{
+			result.setStatus(2);
+			result.setMsg("没有传入参数");
+		}
 		return result;
 	}
 }
