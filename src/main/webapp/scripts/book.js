@@ -11,6 +11,18 @@ $(function(){
 	
 	//弹出创建笔记本的alert
 	$("#add_notebook").click(alertAddBookWindow);
+	
+	//关闭对话框(动态绑定)。对所有弹出的对话框生效
+	$("#can").on("click",".cancle,.close",closeAlertWindow);
+	
+	//绑定添加笔记本按钮（动态）
+	$("#can").on("click","#sure_addNoteBook",addNoteBook);
+	
+	//弹出添加笔记的alert
+	$("#add_note").click(alertAddNoteWindow);
+	
+	//绑定添加笔记按钮（动态）
+	$("#can").on("click","#sure_addNote",addNote);
 });
 
 function loadUserBooks()
@@ -114,6 +126,7 @@ function loadNote()
 		{
 			if(result.status==0)
 			{
+				um.setContent("");
 				var title=result.data.cn_note_title;
 				var body=result.data.cn_note_body;
 				//更新标题和编辑区
@@ -204,5 +217,92 @@ function saveNote()
 			alert("保存笔记失败");
 		}
 	});
+};
+
+
+function addNoteBook()
+{
+	//获取输入框中的新笔记本名称
+	var input=$("#input_notebook").val().trim();
+	//获取当前用户Id
+	var userId=getCookie("userId");
+	//console.log("点击了");
+	//console.log(input);
+	//console.log(userId)
+	
+	$.ajax({
+		url:path+"/book/add.do",
+		type:"post",
+		data:{"userId":userId,"title":input},
+		dataType:"json",
+		success:function(result){
+			if(result.status==0)
+			{
+				var bookId=result.msg;
+				//关闭对话框
+				closeAlertWindow();
+				//添加一个笔记本li
+				createBookLi(bookId,input);
+				//提示增加成功
+				alert("新建笔记本成功");
+			}
+		},
+		error:function(){
+			
+		}
+	});
+}
+
+function addNote()
+{
+	//获取输入框中的新笔记本名称
+	var title=$("#input_note").val().trim();
+	//获取当前用户Id
+	var userId=getCookie("userId");
+	//获取当前笔记本名称
+	var $li=$("#book_ul a.checked").parent();
+	var bookId=$li.data("bookId");
+	//console.log("title :"+title);
+	//console.log("userId :"+userId);
+	//console.log("bookId :"+bookId);
+	
+	//数据合法性判断
+	var ok=true;
+	if(title=="")
+	{
+		ok=false;
+		$("#note_title_span").html("标题不能为空");
+	}
+	if(userId==null)
+	{
+		ok=false;
+		window.location.href="log_in.html";
+	}
+	
+	if(ok)
+	{
+		$.ajax({
+			url:path+"/note/add.do",
+			type:"post",
+			data:{"title":title,"userId":userId,"bookId":bookId},
+			dataType:"json",
+			success:function(result){
+				if(result.status==0)
+				{
+					var noteId=result.msg;
+					//关闭对话框
+					closeAlertWindow();
+					//添加一个笔记li
+					createNoteLi(noteId,title);
+					//提示增加成功
+					alert("新建笔记本成功");
+				}
+			},
+			error:function()
+			{
+				alert("创建笔记失败");
+			}
+		});
+	}
 };
 

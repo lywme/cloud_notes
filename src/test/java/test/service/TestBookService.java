@@ -21,4 +21,18 @@ public class TestBookService {
 		NoteResult<List<Notebook>> result=service.loadUserBooks("39295a3d-cc9b-42b4-b206-a2e7fab7e77c");
 		System.out.println(result);
 	}
+	
+	@Test
+	public void test2()
+	{
+		String[] conf={"conf/spring-mybatis.xml","conf/spring-mvc.xml"};
+		ApplicationContext ac=new ClassPathXmlApplicationContext(conf);
+		BookService service=ac.getBean("bookService",BookService.class);
+		Notebook book=new Notebook();
+		book.setCn_user_id("test");
+		book.setCn_notebook_id("test");
+		book.setCn_notebook_name("test");
+		NoteResult result=service.addBook(book);
+		System.out.println(result);
+	}
 }

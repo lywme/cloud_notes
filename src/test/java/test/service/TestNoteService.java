@@ -32,4 +32,11 @@ public class TestNoteService extends TestBase {
 		NoteResult result=service.loadNote("003ec2a1-f975-4322-8e4d-dfd206d6ac0c");
 		System.out.println(result);
 	}
+	
+	@Test
+	public void test3()
+	{
+		NoteResult result=service.addNote("test", "test", "test");
+		System.out.println(result);
+	}
 }

@@ -1,5 +1,6 @@
 package test.dao;
 
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,5 +24,19 @@ public class TestBookDao {
 		{
 			System.out.println(book);
 		}
+	}
+	
+	@Test
+	public void test2()
+	{
+		String[] conf={"conf/spring-mybatis.xml","conf/spring-mvc.xml"};
+		ApplicationContext ac=new ClassPathXmlApplicationContext(conf);
+		BookDao dao=ac.getBean("bookDao",BookDao.class);
+		
+		Notebook book=new Notebook();
+		book.setCn_user_id("test");
+		book.setCn_notebook_id("test");
+		book.setCn_notebook_name("test");
+		dao.save(book);
 	}
 }

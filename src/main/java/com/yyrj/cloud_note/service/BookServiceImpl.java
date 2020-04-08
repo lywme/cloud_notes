@@ -33,4 +33,14 @@ public class BookServiceImpl implements BookService {
 		return result;
 	}
 
+	public NoteResult<String> addBook(Notebook book) {
+		int i=dao.save(book);
+		System.out.println();
+		NoteResult<String> result=new NoteResult();
+		result.setStatus(0);
+		result.setMsg("创建新笔记本成功");
+		result.setData(book.getCn_notebook_id());
+		return result;
+	}
+
 }
