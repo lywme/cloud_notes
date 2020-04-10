@@ -83,7 +83,7 @@ public class NoteServiceImpl implements NoteService {
 			dao.save(note);
 			result.setStatus(0);
 			result.setMsg("插入笔记成功");
-			result.setMsg(note.getCn_note_id());
+			result.setData(note.getCn_note_id());
 		}
 		else
 		{
@@ -91,6 +91,15 @@ public class NoteServiceImpl implements NoteService {
 			result.setMsg("传入数据不完整");
 		}
 
+		return result;
+	}
+
+	public NoteResult<Note> delNote(String noteId) {
+		int i=dao.deleteNote(noteId);
+		
+		NoteResult<Note> result=new NoteResult<Note>();
+		result.setStatus(0);
+		result.setMsg("删除笔记成功");
 		return result;
 	}
 

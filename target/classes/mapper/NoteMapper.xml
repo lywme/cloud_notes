@@ -30,6 +30,12 @@
 	<insert id="save" parameterType="com.yyrj.cloud_note.entity.Note">
 		insert into cn_note values(#{cn_note_id},#{cn_notebook_id},#{cn_user_id},1,1,#{cn_note_title},null,#{cn_note_create_time},#{cn_note_last_modify_time})
 	</insert>
+	
+	<update id="deleteNote" parameterType="String">
+		update cn_note
+		set cn_note_status_id='2'
+			where cn_note_id=#{cn_note_id}
+	</update>
 
 </mapper>
 

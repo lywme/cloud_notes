@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- EmpMaper.xml 在com.yyrj.entity 包中  -->  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<!-- 命名空间防止重复，指定的是Dao的路经 -->
+<mapper namespace="com.yyrj.cloud_note.dao.ShareDao">
+	<!-- id在映射文件中要求唯一 
+	resultType:返回结果的类型 
+	parameterType:参数类型
+	
+	select里的id属性，要跟DAO中的方法名保持一致
+	-->
+	
+	<insert id="insert" parameterType="com.yyrj.cloud_note.entity.Share">
+			insert into cn_share values(#{cn_share_id},#{cn_share_title},#{cn_share_body},#{cn_note_id})
+	</insert>
+	
+	<select id="search" parameterType="Map" resultType="com.yyrj.cloud_note.entity.Share">
+		select * from cn_share where (cn_share_body like #{keyword} or cn_share_title like #{keyword}) limit #{begin},3
+	</select>
+
+</mapper>
+
+
+
+
+
+
+

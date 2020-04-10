@@ -30,7 +30,9 @@ function userLogin(){
 				{
 					//登录成功，用户名保存到cookie当中
 					var userId=result.data.cn_user_id;
+					var userNick=result.data.cn_user_nick;
 					addCookie("userId",userId,2);
+					addCookie("userNick",userNick,2);
 					window.location.href="edit.html";
 				}
 				else if(result.status==1)

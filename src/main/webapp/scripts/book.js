@@ -1,4 +1,8 @@
+var page=1;
 $(function(){
+	//显示登录的用户名
+	$(".profile-username").html(getCookie("userNick"));
+	
 	//显示笔记本列表
 	loadUserBooks();
 	//绑定笔记本单击事件
@@ -23,6 +27,26 @@ $(function(){
 	
 	//绑定添加笔记按钮（动态）
 	$("#can").on("click","#sure_addNote",addNote);
+	
+	//下拉菜单按钮绑定（动态）
+	$("#note_ul").on("click",".btn_slide_down",slideDownBtn);
+	
+	//点击body任何位置，下拉列表消失
+	$("body").click(function(){
+		$("#note_ul div").hide();
+	});
+	
+	//绑定分享按钮的点击事件
+	$("#note_ul").on("click",".btn_share",clickShareBtn);
+	//绑定删除按钮的点击事件
+	$("#note_ul").on("click",".btn_delete",clickDeleteBtn);
+	
+	//绑定搜索显示区的更多按钮单击
+	//$("#pc_part_6").on("click","#more_note",clickMoreBtn);
+	$("#more_note").click(clickMoreBtn);
+	
+	//绑定搜索框的回车单击事件
+	$("#search_note").keydown(sureSearchShares);
 });
 
 function loadUserBooks()
@@ -68,6 +92,9 @@ function loadUserBooks()
 function loadNotes()
 {
 	var bookId=$(this).data("bookId");
+	//清除搜索框
+	$("#pc_part_6").hide();
+	$("#pc_part_2").show();
 	
 	//清除之前选中的笔记本效果
 	$("#book_ul a").removeClass("checked");
@@ -238,7 +265,7 @@ function addNoteBook()
 		success:function(result){
 			if(result.status==0)
 			{
-				var bookId=result.msg;
+				var bookId=result.data;
 				//关闭对话框
 				closeAlertWindow();
 				//添加一个笔记本li
@@ -289,7 +316,7 @@ function addNote()
 			success:function(result){
 				if(result.status==0)
 				{
-					var noteId=result.msg;
+					var noteId=result.data;
 					//关闭对话框
 					closeAlertWindow();
 					//添加一个笔记li
@@ -305,4 +332,146 @@ function addNote()
 		});
 	}
 };
+
+//笔记下拉按钮点击
+function slideDownBtn()
+{
+	//隐藏笔记菜单
+	$("#note_ul div").hide();
+	//显示点击的菜单
+	var note_menu=$(this).parents("li").find("div");
+	note_menu.slideDown(1000);
+	return false;//停止冒泡事件
+};
+
+//分享按钮的点击事件
+function clickShareBtn()
+{
+	//获取被点击的li，的noteId
+	$li=$(this).parents("li")
+	var noteId=$li.data("noteId");
+	//console.log(noteId);
+	$.ajax({
+		url:path+"/share/add.do",
+		type:"post",
+		data:{"noteId":noteId},
+		dataType:"json",
+		success:function(result){
+			if(result.status==0)
+			{
+				var noteTitle=$li.text();
+				var sli="";
+				sli+='<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i> ';
+				sli+=noteTitle;
+				sli+='<i class="fa fa-sitemap"></i>';
+				sli+='<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down"><i class="fa fa-chevron-down"></i></button>';
+				//将笔记li元素的<a>标记内容替换
+				$li.find("a").html(sli);
+				alert(result.msg);
+			}
+		},
+		error:function()
+		{
+			alert("共享笔记失败");
+		}
+	});
+};
+
+//删除按钮的绑定事件
+function clickDeleteBtn()
+{
+	//获取被点击的li，的noteId
+	$li=$(this).parents("li")
+	var noteId=$li.data("noteId");
+	//console.log(noteId);
+	$.ajax({
+		url:path+"/note/del.do",
+		type:"post",
+		data:{"noteId":noteId},
+		dataType:"json",
+		success:function(result){
+			if(result.status==0)
+			{
+				//在note_list中删除此条目
+				$li.empty();
+				alert(result.msg);
+			}
+		},
+		error:function()
+		{
+			alert("删除笔记失败");
+		}
+	});
+};
+
+//搜索结果的显示更多按钮
+function clickMoreBtn()
+{
+	//alert("clicked");
+	//发送ajax到服务器，获取下一页数据追加到列表
+	var keyword=$("#search_note").val().trim();
+	//console.log(input);
+	page=page+1;
+	loadShareNote(keyword,page);
+};
+
+
+function loadShareNote(keyword,page)
+{
+	$.ajax({
+		url:path+"/share/search.do",
+		type:"post",
+		data:{"keyword":keyword,"page":page},
+		dataType:"json",
+		success:function(result){
+			if(result.status==0)
+			{
+				var shares=result.data;
+				for(var i=0;i<shares.length;i++)
+				{
+					//console.log(shares[i]);
+					//获取id
+					var id=shares[i].cn_share_id;
+					//获取title
+					var shareTitle=shares[i].cn_share_title;
+					//获取li对象
+					var nli="";
+					nli+='<li class="online">';
+					nli+="<a>";
+					nli+='<i class="fa fa-file-text-o" title="online" rel="tooltip-bottom"></i> '+shareTitle+'<button type="button" class="btn btn-default btn-xs btn_position btn_slide_down"><i class="fa fa-chevron-down"></i></button>';
+					nli+="</a>";
+					nli+='</li>';
+					var $li=$(nli);
+					//绑定shareId
+					$li.data("shareId",id);
+					//将li对象添加到ul当中
+					$("#search_ul").append($li);
+					//切换显示区
+					$("#pc_part_2").hide();
+					$("#pc_part_6").show();
+				}
+			}
+		},
+		error:function()
+		{
+			alert("获取搜索结果失败");
+		}
+	});
+};
+
+//搜索框事件
+function sureSearchShares(event)
+{
+
+	if(event.keyCode==13)
+	{
+		//清空搜索结果列表
+		$("#search_ul li").remove();
+		var keyword=$("#search_note").val().trim();
+		//console.log(input);
+		page=1;
+		loadShareNote(keyword,page);
+	}
+};
+
 
