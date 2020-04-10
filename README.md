@@ -2,20 +2,20 @@ Cloud Note - A web platform that allows you to take notes and write your diaries
 ===
 
 ### This project is a side project coding by `Spring`, `SpringMVC` and `Mybatis` with MVC architecture
-* A short `demo` video on Youtube : [Click to see DEMO on Youtube](https://www.youtube.com/watch?v=Ep8QZnTCV7E)  
+* A short `demo` video on Youtube : [Click to see DEMO on Youtube](https://youtu.be/WePgxsBPBNY)  
 
 ****
-* The login page which consists of the verification code function
-![](https://github.com/lywme/netctoss/raw/master/src/main/webapp/images/login.png)  
+* The login page
+![](https://github.com/lywme/cloud_notes/src/main/webapp/images/login.png)  
 
-* When login successfully, you can see the homepage
-![](https://github.com/lywme/netctoss/raw/master/src/main/webapp/images/homepage.png)  
+* Create new user
+![](https://github.com/lywme/cloud_notes/src/main/webapp/images/newuser.png)  
 
-* Different functionalities like fee list
-![](https://github.com/lywme/netctoss/raw/master/src/main/webapp/images/feelist.png)  
+* main screen
+![](https://github.com/lywme/cloud_notes/src/main/webapp/images/home.png)  
 
-* In th fee list page, you can add new fee as well as modify existing fees, or delete a specific fee
-![](https://github.com/lywme/netctoss/raw/master/src/main/webapp/images/addfee.png)  
+* The Front end and Back end are communicating with JSON
+![](https://github.com/lywme/cloud_notes/src/main/webapp/images/json.png)  
 
-* If capture any exceptions or errors, jump to the error page and after 5 seconds back to login page
-![](https://github.com/lywme/netctoss/raw/master/src/main/webapp/images/error.png)  
+* The primary key of the recode is created by UUID and the passwords are encrypted by md5
+![](https://github.com/lywme/cloud_notes/src/main/webapp/images/md5.png)  
